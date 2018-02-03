@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Veni_CartPriceRulesQualifier::cart_price_qualifier" title="Cart Price Rules Qualifier" parent="Magento_Reports::report" module="Veni_CartPriceRulesQualifier" sortOrder="100" resource="Veni_CartPriceRulesQualifier::cart_price_qualifier" />
+        <add id="Veni_CartPriceRulesQualifier::by_customer" title="By customer" module="Veni_CartPriceRulesQualifier" sortOrder="10" parent="Veni_CartPriceRulesQualifier::cart_price_qualifier" action="cart_rules_qualifier/bycustomer" resource="Veni_CartPriceRulesQualifier::by_customer" />
+    </menu>
+</config>
