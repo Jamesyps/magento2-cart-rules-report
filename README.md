@@ -1,1 +1,1 @@
-# magento2-cart-rules-qualifier
+Checkout this repo in app\code\Veni\CartPriceRulesQualifier
