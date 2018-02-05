@@ -59,6 +59,11 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $this->addFilterStrategies = $addFilterStrategies;
     }
 
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
     /**
      * Get data
      *
@@ -69,12 +74,8 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         if (!$this->getCollection()->isLoaded()) {
             $this->getCollection()->load();
         }
-        $items = $this->getCollection()->toArray();
 
-        return [
-            'totalRecords' => $this->getCollection()->getSize(),
-            'items' => array_values($items['items']),
-        ];
+        return $this->getCollection()->toArray();
     }
 
 }

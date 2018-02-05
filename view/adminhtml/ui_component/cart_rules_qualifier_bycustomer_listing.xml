@@ -10,6 +10,14 @@
         </item>
         <!-- define column type -->
         <item name="spinner" xsi:type="string">cart_rules_bycustomer_columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="export_by_customer" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Export By Customer</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/report/csv/</item>
+            </item>
+        </item>
     </argument>
 
     <!-- Data source -->
