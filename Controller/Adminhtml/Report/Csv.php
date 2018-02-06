@@ -6,32 +6,44 @@ use Magento\Framework\App\Action\Context;
 class Csv extends \Magento\Framework\App\Action\Action
 {
 
+    /**
+     * @var \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory
+     */
+    private $cartRuleQualifierFactory;
+
     public function __construct(
         Context $context,
-        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory)
+        \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory)
     {
         parent::__construct($context);
+        $this->cartRuleQualifierFactory = $cartRuleQualifierFactory;
     }
 
     public function execute()
     {
-        $heading = [
-            __('Id'),
-            __('SKU'),
-            __('Name')
-        ];
-        $outputFile = "ListProducts". date('Ymd_His').".csv";
+        $heading = $this->getHeading();
+        $outputFile = "PromotionsByCustomers". date('Ymd').".csv";
         $handle = fopen($outputFile, 'w');
         fputcsv($handle, $heading);
 
-        //foreach ($products as $product) {
+        $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
+        $cartRulesCollection = $cartRuleQualifierModel->getCollection();
+        $cartRulesCollection
+            ->getSelect()
+            ->columns("COUNT(customer_email) AS num_of_usage")
+            ->group('main_table.name');
+        $cartRulesCollection->setOrder('num_of_usage');
+
+        $collectionItems = $cartRulesCollection->getItems();
+        foreach ($collectionItems as $collectionItem) {
             $row = [
-                '23213',
-                '23123123',
-                'VenZy'
+                $collectionItem->getData('name'),
+                $collectionItem->getData('num_of_usage'),
+                '...'
             ];
             fputcsv($handle, $row);
-       // }
+        }
+
         $this->downloadCsv($outputFile);
     }
 
@@ -49,5 +61,14 @@ class Csv extends \Magento\Framework\App\Action\Action
             ob_clean();flush();
             readfile($file);
         }
+    }
+
+    private function getHeading()
+    {
+        return [
+            __('Promotion'),
+            __('Number of usage'),
+            __('....')
+        ];
     }
 }
