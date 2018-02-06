@@ -41,11 +41,11 @@ class Collection extends AbstractCollection
     public function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()->join(
+        $this->getSelect()->joinLeft(
             ['ce' => $this->getTable('customer_entity')],
             'ce.entity_id = main_table.customer_id',
             ['customer_email'=> 'email']
-        )->join(
+        )->joinLeft(
             ['so' => $this->getTable('sales_order')],
             'so.entity_id = main_table.order_id',
             ['sales_order_num' => 'increment_id', 'sales_order_created_at' => 'created_at']

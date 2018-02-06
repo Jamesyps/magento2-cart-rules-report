@@ -47,7 +47,7 @@ class InstallSchema implements InstallSchemaInterface
             'customer_id' => array(
                 'type' => Table::TYPE_INTEGER,
                 'size' => null,
-                'options' => array('unsigned' => true, 'nullable' => false),
+                'options' => array('nullable' => true, 'default' => null),
                 'comment' => 'Customer Id',
             ),
             'order_id' => array(
@@ -59,11 +59,6 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $foreignKeys = array(
-            'customer_id' => array(
-                'ref_table' => 'customer_entity',
-                'ref_column' => 'entity_id',
-                'on_delete' => Table::ACTION_CASCADE,
-            ),
             'order_id' => array(
                 'ref_table' => 'sales_order',
                 'ref_column' => 'entity_id',

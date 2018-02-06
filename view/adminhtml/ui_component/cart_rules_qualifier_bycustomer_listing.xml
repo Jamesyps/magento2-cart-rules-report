@@ -205,7 +205,7 @@
         </column>
 
         <!-- Customer email Column -->
-        <column name="customer_email">
+        <column name="customer_email" class="Veni\CartPriceRulesQualifier\Ui\Component\Listing\Columns\CustomerId">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
