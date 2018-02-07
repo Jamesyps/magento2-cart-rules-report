@@ -37,8 +37,8 @@ class Csv extends \Magento\Framework\App\Action\Action
         $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
         $cartRulesCollection = $cartRuleQualifierModel->getCollection();
 
-        $promotionsByOrder = $this->getLinkedPromotions();
-        $combinationsByPromotion = $this->getCombinationsByPromotion($promotionsByOrder);
+        $promotionsByOrder = $this->getPromotionsByOrder();
+        $linkedPromotions = $this->getLinkedPromotions($promotionsByOrder);
 
         $cartRulesCollection
             ->getSelect()
@@ -49,15 +49,15 @@ class Csv extends \Magento\Framework\App\Action\Action
         foreach ($collectionItems as $collectionItem) {
             $row = [];
             $row[] = $collectionItem->getData('name');
-            if(isset($combinationsByPromotion[$collectionItem->getData('name')])) {
-                $row[] = $collectionItem->getData('num_of_usage') - $combinationsByPromotion[$collectionItem->getData('name')]['num'];
-                $row[] = $combinationsByPromotion[$collectionItem->getData('name')]['num'];
-                $row[] = $combinationsByPromotion[$collectionItem->getData('name')]['combinations'];
+            if(isset($linkedPromotions[$collectionItem->getData('name')])) {
+                $row[] = $collectionItem->getData('num_of_usage') - $linkedPromotions[$collectionItem->getData('name')]['num'];
+                $row[] = $linkedPromotions[$collectionItem->getData('name')]['num'];
+                $row[] = $linkedPromotions[$collectionItem->getData('name')]['combinations'];
             }
             $row[] = $collectionItem->getData('num_of_usage');
             fputcsv($handle, $row);
         }
-
+        
         $this->downloadCsv($outputFile);
     }
 
@@ -88,7 +88,7 @@ class Csv extends \Magento\Framework\App\Action\Action
         ];
     }
 
-    private function getLinkedPromotions()
+    private function getPromotionsByOrder()
     {
         $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
         $cartRulesCollection = $cartRuleQualifierModel->getCollection();
@@ -102,26 +102,26 @@ class Csv extends \Magento\Framework\App\Action\Action
         return $promotionsByOrder;
     }
 
-    private function getCombinationsByPromotion($promotionsByOrder)
+    private function getLinkedPromotions($promotionsByOrder)
     {
-        $combinations = [];
-        $cartPromotions = $this->getCartPromotions();
+        $linkedPromotions = [];
+        $cartPromotions = $this->getPromotionNames();
 
         foreach ($cartPromotions as $cartPromotion) {
-            $combinations[$cartPromotion]['num'] = 0;
-            $combinations[$cartPromotion]['combinations'] = '';
+            $linkedPromotions[$cartPromotion]['num'] = 0;
+            $linkedPromotions[$cartPromotion]['combinations'] = '';
             foreach ($promotionsByOrder as $orderNum => $promotions) {
                 if(count($promotions) > 1 && in_array($cartPromotion,$promotions)) {
-                    $combinations[$cartPromotion]['num']++;
-                    $combinations[$cartPromotion]['combinations'] .= implode(',', $promotions) . '; ';
+                    $linkedPromotions[$cartPromotion]['num']++;
+                    $linkedPromotions[$cartPromotion]['combinations'] .= implode(',', $promotions) . '; ';
                 }
             }
         }
 
-        return $combinations;
+        return $linkedPromotions;
     }
 
-    private function getCartPromotions()
+    private function getPromotionNames()
     {
         $connection = $this->resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
         $select = $connection->select();
