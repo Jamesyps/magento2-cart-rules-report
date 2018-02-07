@@ -6,41 +6,55 @@ use Magento\Framework\App\Action\Context;
 class Csv extends \Magento\Framework\App\Action\Action
 {
 
+    const OUTPUT_FILE_NAME = 'PromotionsByCustomers';
+
     /**
      * @var \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory
      */
-    private $cartRuleQualifierFactory;
+    protected $cartRuleQualifierFactory;
+    /**
+     * @var \Magento\Framework\App\ResourceConnection
+     */
+    protected $resource;
 
     public function __construct(
         Context $context,
-        \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory)
+        \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory,
+        \Magento\Framework\App\ResourceConnection $resource)
     {
         parent::__construct($context);
         $this->cartRuleQualifierFactory = $cartRuleQualifierFactory;
+        $this->resource = $resource;
     }
 
     public function execute()
     {
         $heading = $this->getHeading();
-        $outputFile = "PromotionsByCustomers". date('Ymd').".csv";
+        $outputFile = self::OUTPUT_FILE_NAME . date('Ymd').".csv";
         $handle = fopen($outputFile, 'w');
         fputcsv($handle, $heading);
 
         $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
         $cartRulesCollection = $cartRuleQualifierModel->getCollection();
+
+        $promotionsByOrder = $this->getLinkedPromotions();
+        $combinationsByPromotion = $this->getCombinationsByPromotion($promotionsByOrder);
+
         $cartRulesCollection
             ->getSelect()
             ->columns("COUNT(customer_email) AS num_of_usage")
             ->group('main_table.name');
         $cartRulesCollection->setOrder('num_of_usage');
-
         $collectionItems = $cartRulesCollection->getItems();
         foreach ($collectionItems as $collectionItem) {
-            $row = [
-                $collectionItem->getData('name'),
-                $collectionItem->getData('num_of_usage'),
-                '...'
-            ];
+            $row = [];
+            $row[] = $collectionItem->getData('name');
+            if(isset($combinationsByPromotion[$collectionItem->getData('name')])) {
+                $row[] = $collectionItem->getData('num_of_usage') - $combinationsByPromotion[$collectionItem->getData('name')]['num'];
+                $row[] = $combinationsByPromotion[$collectionItem->getData('name')]['num'];
+                $row[] = $combinationsByPromotion[$collectionItem->getData('name')]['combinations'];
+            }
+            $row[] = $collectionItem->getData('num_of_usage');
             fputcsv($handle, $row);
         }
 
@@ -67,8 +81,53 @@ class Csv extends \Magento\Framework\App\Action\Action
     {
         return [
             __('Promotion'),
-            __('Number of usage'),
-            __('....')
+            __('Num of standalone promotions usage'),
+            __('Num of linked promotions usage'),
+            __('Linked promotions'),
+            __('Sum of usage')
         ];
     }
+
+    private function getLinkedPromotions()
+    {
+        $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
+        $cartRulesCollection = $cartRuleQualifierModel->getCollection();
+        $collectionItems = $cartRulesCollection->getItems();
+
+        $promotionsByOrder = [];
+        foreach ($collectionItems as $collectionItem) {
+            $promotionsByOrder[$collectionItem->getData('sales_order_num')][] = $collectionItem->getData('name');
+        }
+
+        return $promotionsByOrder;
+    }
+
+    private function getCombinationsByPromotion($promotionsByOrder)
+    {
+        $combinations = [];
+        $cartPromotions = $this->getCartPromotions();
+
+        foreach ($cartPromotions as $cartPromotion) {
+            $combinations[$cartPromotion]['num'] = 0;
+            $combinations[$cartPromotion]['combinations'] = '';
+            foreach ($promotionsByOrder as $orderNum => $promotions) {
+                if(count($promotions) > 1 && in_array($cartPromotion,$promotions)) {
+                    $combinations[$cartPromotion]['num']++;
+                    $combinations[$cartPromotion]['combinations'] .= implode(',', $promotions) . '; ';
+                }
+            }
+        }
+
+        return $combinations;
+    }
+
+    private function getCartPromotions()
+    {
+        $connection = $this->resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
+        $select = $connection->select();
+        $select->from('veni_cart_rule_qualifier', 'name')->distinct(true);
+
+        return $connection->fetchCol($select);
+    }
+
 }
