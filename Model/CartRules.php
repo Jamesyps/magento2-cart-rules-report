@@ -3,8 +3,13 @@ namespace Veni\CartRulesReport\Model;
 
 use \Magento\Framework\Model\AbstractModel;
 
+/**
+ * Class CartRules
+ * @package Veni\CartRulesReport\Model
+ */
 class CartRules extends AbstractModel
 {
+
     const CART_RULES_ID = 'entity_id'; // We define the id fieldname
 
     /**
@@ -37,4 +42,5 @@ class CartRules extends AbstractModel
     {
         $this->_init('Veni\CartRulesReport\Model\ResourceModel\CartRules');
     }
+    
 }

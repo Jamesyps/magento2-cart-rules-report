@@ -1,8 +1,19 @@
 <?php
 namespace Veni\CartRulesReport\Model\ResourceModel\CartRules;
 
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Data\Collection\EntityFactoryInterface;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Psr\Log\LoggerInterface;
+use Veni\CartRulesReport\Model\CartRules;
 
+/**
+ * Class Collection
+ * @package Veni\CartRulesReport\Model\ResourceModel\CartRules
+ */
 class Collection extends AbstractCollection
 {
 
@@ -19,19 +30,30 @@ class Collection extends AbstractCollection
         ],
     ];
 
-    protected $_idFieldName = \Veni\CartRulesReport\Model\CartRules::CART_RULES_ID;
+    /**
+     * @var string
+     */
+    protected $_idFieldName = CartRules::CART_RULES_ID;
 
+    /**
+     * Collection constructor.
+     * @param EntityFactoryInterface $entityFactory
+     * @param LoggerInterface $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param ManagerInterface $eventManager
+     * @param AdapterInterface|null $connection
+     * @param AbstractDb|null $resource
+     */
     public function __construct(
-        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
-        \Psr\Log\LoggerInterface $logger,
-        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
-        \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null)
+        EntityFactoryInterface $entityFactory,
+        LoggerInterface $logger,
+        FetchStrategyInterface $fetchStrategy,
+        ManagerInterface $eventManager,
+        AdapterInterface $connection = null,
+        AbstractDb $resource = null)
     {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
-
 
     /**
      * Define resource model
@@ -61,7 +83,9 @@ class Collection extends AbstractCollection
     }
 
     /**
-     * @inheritdoc
+     * @param array|string $field
+     * @param null $condition
+     * @return $this
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -73,4 +97,3 @@ class Collection extends AbstractCollection
     }
 
 }
-

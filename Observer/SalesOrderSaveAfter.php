@@ -6,6 +6,10 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\SalesRule\Model\RuleFactory;
 use Veni\CartRulesReport\Model\CartRulesFactory;
 
+/**
+ * Class SalesOrderSaveAfter
+ * @package Veni\CartRulesReport\Observer
+ */
 class SalesOrderSaveAfter implements ObserverInterface
 {
 
@@ -19,6 +23,11 @@ class SalesOrderSaveAfter implements ObserverInterface
      */
     protected $ruleFactory;
 
+    /**
+     * SalesOrderSaveAfter constructor.
+     * @param CartRulesFactory $cartRulesFactory
+     * @param RuleFactory $ruleFactory
+     */
     public function __construct(
         CartRulesFactory $cartRulesFactory,
         RuleFactory $ruleFactory

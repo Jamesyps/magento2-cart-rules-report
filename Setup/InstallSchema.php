@@ -1,12 +1,18 @@
-<?php namespace Veni\CartRulesReport\Setup;
+<?php
+namespace Veni\CartRulesReport\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\DB\Ddl\Table;
 
+/**
+ * Class InstallSchema
+ * @package Veni\CartRulesReport\Setup
+ */
 class InstallSchema implements InstallSchemaInterface
 {
+
     /**
      * Installs DB schema for a module
      *
@@ -69,7 +75,6 @@ class InstallSchema implements InstallSchemaInterface
         /**
          *  We can use the parameters above to create our table
          */
-
         // Table creation
         $table = $installer->getConnection()->newTable($tableName);
 
@@ -83,7 +88,6 @@ class InstallSchema implements InstallSchemaInterface
                 $values['comment']
             );
         }
-
 
         // Foreign keys creation
         foreach($foreignKeys AS $column => $foreignKey){
@@ -107,3 +111,4 @@ class InstallSchema implements InstallSchemaInterface
     }
 
 }
+

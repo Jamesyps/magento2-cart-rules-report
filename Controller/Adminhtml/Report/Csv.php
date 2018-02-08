@@ -2,27 +2,39 @@
 namespace Veni\CartRulesReport\Controller\Adminhtml\Report;
 
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\ResourceConnection;
+use Veni\CartRulesReport\Model\CartRulesFactory;
 
+/**
+ * Class Csv
+ * @package Veni\CartRulesReport\Controller\Adminhtml\Report
+ */
 class Csv extends \Magento\Framework\App\Action\Action
 {
 
     const OUTPUT_FILE_NAME = 'PromotionsReport';
 
     /**
-     * @var \Veni\CartRulesReport\Model\CartRulesFactory $cartRulesFactory
+     * @var CartRulesFactory $cartRulesFactory
      */
     protected $cartRulesFactory;
 
     /**
-     * @var \Magento\Framework\App\ResourceConnection
+     * @var ResourceConnection
      */
     protected $resource;
 
+    /**
+     * Csv constructor.
+     * @param Context $context
+     * @param CartRulesFactory $cartRulesFactory
+     * @param ResourceConnection $resource
+     */
     public function __construct(
         Context $context,
-        \Veni\CartRulesReport\Model\CartRulesFactory $cartRulesFactory,
-        \Magento\Framework\App\ResourceConnection $resource)
-    {
+        CartRulesFactory $cartRulesFactory,
+        ResourceConnection $resource
+    ) {
         parent::__construct($context);
         $this->cartRulesFactory = $cartRulesFactory;
         $this->resource = $resource;
@@ -124,7 +136,7 @@ class Csv extends \Magento\Framework\App\Action\Action
 
     private function getPromotionNames()
     {
-        $connection = $this->resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
+        $connection = $this->resource->getConnection(ResourceConnection::DEFAULT_CONNECTION);
         $select = $connection->select();
         $select->from('veni_cart_rules', 'name')->distinct(true);
 

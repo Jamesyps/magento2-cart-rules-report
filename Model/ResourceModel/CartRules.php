@@ -4,7 +4,8 @@ namespace Veni\CartRulesReport\Model\ResourceModel;
 use \Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**
- * Cart Rules post mysql resource
+ * Class CartRules post mysql resource
+ * @package Veni\CartRulesReport\Model\ResourceModel
  */
 class CartRules extends AbstractDb
 {

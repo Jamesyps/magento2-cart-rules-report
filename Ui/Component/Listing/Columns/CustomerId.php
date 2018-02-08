@@ -4,7 +4,10 @@ namespace Veni\CartRulesReport\Ui\Component\Listing\Columns;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 
-
+/**
+ * Class CustomerId
+ * @package Veni\CartRulesReport\Ui\Component\Listing\Columns
+ */
 class CustomerId extends \Magento\Ui\Component\Listing\Columns\Column
 {
 

@@ -1,13 +1,19 @@
 <?php
 namespace Veni\CartRulesReport\Controller\Adminhtml\Action;
 
+use Magento\Backend\App\Action;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\App\Action\Context;
 use Magento\Ui\Component\MassAction\Filter;
 use Veni\CartRulesReport\Model\ResourceModel\CartRules\CollectionFactory;
 
-class MassDelete extends \Magento\Backend\App\Action
+/**
+ * Class MassDelete
+ * @package Veni\CartRulesReport\Controller\Adminhtml\Action
+ */
+class MassDelete extends Action
 {
+
     /**
      * @var Filter
      */
@@ -24,12 +30,16 @@ class MassDelete extends \Magento\Backend\App\Action
      * @param Filter $filter
      * @param CollectionFactory $collectionFactory
      */
-    public function __construct(Context $context, Filter $filter, CollectionFactory $collectionFactory)
-    {
+    public function __construct(
+        Context $context,
+        Filter $filter,
+        CollectionFactory $collectionFactory
+    ) {
         $this->filter = $filter;
         $this->collectionFactory = $collectionFactory;
         parent::__construct($context);
     }
+
     /**
      * Execute action
      *
@@ -48,6 +58,8 @@ class MassDelete extends \Magento\Backend\App\Action
 
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+
         return $resultRedirect->setPath('*/');
     }
+
 }

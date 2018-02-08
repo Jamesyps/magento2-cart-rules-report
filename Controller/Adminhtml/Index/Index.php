@@ -6,6 +6,10 @@ use Magento\Framework\View\Result\PageFactory;
 use Magento\Backend\App\Action;
 use Veni\CartRulesReport\Model\CartRulesFactory;
 
+/**
+ * Class Index
+ * @package Veni\CartRulesReport\Controller\Adminhtml\Index
+ */
 class Index extends Action
 {
 
@@ -51,4 +55,5 @@ class Index extends Action
 
         return $resultPage;
     }
+
 }
