@@ -1,6 +1,7 @@
 <?php
 namespace Veni\CartRulesReport\Controller\Adminhtml\Report;
 
+use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResourceConnection;
 use Veni\CartRulesReport\Model\CartRulesFactory;
@@ -9,8 +10,10 @@ use Veni\CartRulesReport\Model\CartRulesFactory;
  * Class Csv
  * @package Veni\CartRulesReport\Controller\Adminhtml\Report
  */
-class Csv extends \Magento\Framework\App\Action\Action
+class Csv extends Action
 {
+
+    const ADMIN_RESOURCE = 'Veni_CartRulesReport::cart_rules_export_by_name';
 
     const OUTPUT_FILE_NAME = 'PromotionsReport';
 

@@ -2,6 +2,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="Veni_CartRulesReport::cart_rules_report" title="Cart Rules Report" parent="Magento_Reports::report" module="Veni_CartRulesReport" sortOrder="100" resource="Veni_CartRulesReport::cart_rules_report" />
-        <add id="Veni_CartRulesReport::index" title="By Rule Name" module="Veni_CartRulesReport" sortOrder="10" parent="Veni_CartRulesReport::cart_rules_report" action="cart_rules_report" resource="Veni_CartRulesReport::index" />
+        <add id="Veni_CartRulesReport::index" title="By Rule Name" module="Veni_CartRulesReport" sortOrder="10" parent="Veni_CartRulesReport::cart_rules_report" action="cart_rules_report" resource="Veni_CartRulesReport::cart_rules_report" />
     </menu>
 </config>

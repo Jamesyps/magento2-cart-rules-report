@@ -13,7 +13,7 @@ use Veni\CartRulesReport\Model\CartRulesFactory;
 class Index extends Action
 {
 
-    const ADMIN_RESOURCE = 'Veni_CartRulesReport::index';
+    const ADMIN_RESOURCE = 'Veni_CartRulesReport::cart_rules_report';
 
     /**
      * @var PageFactory

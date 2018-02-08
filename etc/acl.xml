@@ -5,7 +5,7 @@
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Reports::report">
                     <resource id="Veni_CartRulesReport::cart_rules_report" title="Cart Rules Report" sortOrder="100" >
-                        <resource id="Veni_CartRulesReport::cart_rules_report_index" title="By Rule Name" sortOrder="10"></resource>
+                        <resource id="Veni_CartRulesReport::cart_rules_export_by_name" title="Export By Rule Name" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>
