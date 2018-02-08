@@ -1,6 +1,5 @@
 <?php
-
-namespace Veni\CartPriceRulesQualifier\Ui\Component\Listing\Columns;
+namespace Veni\CartRulesReport\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
@@ -8,11 +7,11 @@ use Magento\Framework\View\Element\UiComponent\ContextInterface;
 
 class CustomerId extends \Magento\Ui\Component\Listing\Columns\Column
 {
+
     /**
      * Column name
      */
     const NAME = 'customer_id';
-
 
     /**
      * @param ContextInterface $context
@@ -25,11 +24,8 @@ class CustomerId extends \Magento\Ui\Component\Listing\Columns\Column
         UiComponentFactory $uiComponentFactory,
         array $components = [],
         array $data = []
-    )
-    {
-
+    ){
         parent::__construct($context, $uiComponentFactory, $components, $data);
-
     }
 
     /**

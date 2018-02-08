@@ -8,7 +8,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
 
     <event name="sales_order_save_after">
-        <observer name="veni_cartPriceRulesQualifier_sales_order_after" instance="\Veni\CartPriceRulesQualifier\Observer\SalesOrderSaveAfter" />
+        <observer name="veni_cartRulesReport_sales_order_after" instance="\Veni\CartRulesReport\Observer\SalesOrderSaveAfter" />
     </event>
 
 </config>

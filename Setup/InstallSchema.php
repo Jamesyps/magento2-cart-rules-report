@@ -1,4 +1,4 @@
-<?php namespace Veni\CartPriceRulesQualifier\Setup;
+<?php namespace Veni\CartRulesReport\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -20,17 +20,17 @@ class InstallSchema implements InstallSchemaInterface
         $installer->startSetup();
 
         /**
-         * Create table 'veni_cart_rule_qualifier'
+         * Create table 'veni_cart_rules'
          */
 
-        $tableName = $installer->getTable('veni_cart_rule_qualifier');
-        $tableComment = 'Cart rules qualifier';
+        $tableName = $installer->getTable('veni_cart_rules');
+        $tableComment = 'Veni cart rules';
         $columns = array(
             'entity_id' => array(
                 'type' => Table::TYPE_INTEGER,
                 'size' => null,
                 'options' => array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
-                'comment' => 'Cart rule qualifier Id',
+                'comment' => 'Entity Id',
             ),
             'name' => array(
                 'type' => Table::TYPE_TEXT,

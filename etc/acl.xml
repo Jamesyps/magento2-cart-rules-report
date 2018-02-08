@@ -4,8 +4,8 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Reports::report">
-                    <resource id="Veni_CartPriceRulesQualifier::cart_price_qualifier" title="Cart Price Rules Qualifier" sortOrder="100" >
-                        <resource id="Veni_CartPriceRulesQualifier::by_customer" title="By Customer" sortOrder="10"></resource>
+                    <resource id="Veni_CartRulesReport::cart_rules_report" title="Cart Rules Report" sortOrder="100" >
+                        <resource id="Veni_CartRulesReport::cart_rules_report_index" title="By Rule Name" sortOrder="10"></resource>
                     </resource>
                 </resource>
             </resource>

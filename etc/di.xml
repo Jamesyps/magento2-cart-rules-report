@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- Create our type CartRulesByCustomerGridDataProvider -->
-    <virtualType name="CartRulesByCustomerGridDataProvider" type="Veni\CartPriceRulesQualifier\Ui\DataProvider\DataProvider">
+    <!-- Create our type CartRulesReportGridDataProvider -->
+    <virtualType name="CartRulesReportGridDataProvider" type="Veni\CartRulesReport\Ui\DataProvider\DataProvider">
         <arguments>
-            <argument name="collection" xsi:type="object">Veni\CartPriceRulesQualifier\Model\ResourceModel\CartRuleQualifier\Collection</argument>
-            <argument name="filterPool" xsi:type="object">CartRulesByCustomerGridFilterPool</argument> <!-- Define new object for filters -->
+            <argument name="collection" xsi:type="object">Veni\CartRulesReport\Model\ResourceModel\CartRules\Collection</argument>
+            <argument name="filterPool" xsi:type="object">CartRulesReportGridFilterPool</argument> <!-- Define new object for filters -->
         </arguments>
     </virtualType>
 
-    <!-- Create our type CartRulesByCustomerGridFilterPool -->
-    <virtualType name="CartRulesByCustomerGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+    <!-- Create our type CartRulesReportGridFilterPool -->
+    <virtualType name="CartRulesReportGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
         <arguments>
             <argument name="appliers" xsi:type="array">
                 <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
@@ -18,20 +18,20 @@
         </arguments>
     </virtualType>
 
-    <!-- Type for cart_rules_qualifier_bycustomer_listing_data_source -->
+    <!-- Type for cart_rules_report_index_listing_data_source -->
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="cart_rules_qualifier_bycustomer_listing_data_source" xsi:type="string">Veni\CartPriceRulesQualifier\Model\ResourceModel\Grid\CartRuleQualifier\Collection</item>
+                <item name="cart_rules_report_index_listing_data_source" xsi:type="string">Veni\CartRulesReport\Model\ResourceModel\Grid\CartRules\Collection</item>
             </argument>
         </arguments>
     </type>
 
-    <!-- Simulate our class Veni\CartPriceRulesQualifier\Model\ResourceModel\Grid\CartRuleQualifier\Collection -->
-    <virtualType name="Veni\CartPriceRulesQualifier\Model\ResourceModel\Grid\CartRuleQualifier\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+    <!-- Simulate our class Veni\CartRulesReport\Model\ResourceModel\Grid\CartRules\Collection -->
+    <virtualType name="Veni\CartRulesReport\Model\ResourceModel\Grid\CartRules\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
-            <argument name="mainTable" xsi:type="string">veni_cart_rule_qualifier</argument>
-            <argument name="resourceModel" xsi:type="string">Veni\CartPriceRulesQualifier\Model\ResourceModel\CartRuleQualifier</argument>
+            <argument name="mainTable" xsi:type="string">veni_cart_rules</argument>
+            <argument name="resourceModel" xsi:type="string">Veni\CartRulesReport\Model\ResourceModel\CartRules</argument>
         </arguments>
     </virtualType>
 </config>

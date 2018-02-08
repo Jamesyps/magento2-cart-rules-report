@@ -1,5 +1,5 @@
 <?php
-namespace Veni\CartPriceRulesQualifier\Model\ResourceModel\CartRuleQualifier;
+namespace Veni\CartRulesReport\Model\ResourceModel\CartRules;
 
 use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
@@ -19,9 +19,15 @@ class Collection extends AbstractCollection
         ],
     ];
 
-    protected $_idFieldName = \Veni\CartPriceRulesQualifier\Model\CartRuleQualifier::CART_RULE_QUALIFIER_ID;
+    protected $_idFieldName = \Veni\CartRulesReport\Model\CartRules::CART_RULES_ID;
 
-    public function __construct(\Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory, \Psr\Log\LoggerInterface $logger, \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy, \Magento\Framework\Event\ManagerInterface $eventManager, \Magento\Framework\DB\Adapter\AdapterInterface $connection = null, \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null)
+    public function __construct(
+        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
+        \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null)
     {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
@@ -34,8 +40,8 @@ class Collection extends AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init('Veni\CartPriceRulesQualifier\Model\CartRuleQualifier',
-            'Veni\CartPriceRulesQualifier\Model\ResourceModel\CartRuleQualifier');
+        $this->_init('Veni\CartRulesReport\Model\CartRules',
+            'Veni\CartRulesReport\Model\ResourceModel\CartRules');
     }
 
     public function _initSelect()
@@ -48,7 +54,7 @@ class Collection extends AbstractCollection
         )->joinLeft(
             ['so' => $this->getTable('sales_order')],
             'so.entity_id = main_table.order_id',
-            ['sales_order_num' => 'increment_id', 'sales_order_created_at' => 'created_at']
+            ['sales_order_num' => 'increment_id', 'sales_order_created_at' => 'created_at', 'store_id' => 'store_id']
         );
 
         return $this;

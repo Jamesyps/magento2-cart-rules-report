@@ -1,28 +1,30 @@
 <?php
-
-namespace Veni\CartPriceRulesQualifier\Observer;
+namespace Veni\CartRulesReport\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\SalesRule\Model\RuleFactory;
+use Veni\CartRulesReport\Model\CartRulesFactory;
 
 class SalesOrderSaveAfter implements ObserverInterface
 {
 
     /**
-     * @var \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory
+     * @var CartRulesFactory
      */
-    private $cartRuleQualifierFactory;
+    protected $cartRulesFactory;
+
     /**
-     * @var \Magento\SalesRule\Model\RuleFactory
+     * @var RuleFactory
      */
-    private $ruleFactory;
+    protected $ruleFactory;
 
-    public function __construct(\Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory,
-                                \Magento\SalesRule\Model\RuleFactory $ruleFactory)
-    {
-
-        $this->cartRuleQualifierFactory = $cartRuleQualifierFactory;
+    public function __construct(
+        CartRulesFactory $cartRulesFactory,
+        RuleFactory $ruleFactory
+    ) {
         $this->ruleFactory = $ruleFactory;
+        $this->cartRulesFactory = $cartRulesFactory;
     }
 
     /**
@@ -33,8 +35,8 @@ class SalesOrderSaveAfter implements ObserverInterface
     {
         $order = $observer->getEvent()->getOrder();
 
-        /** @var \Veni\CartPriceRulesQualifier\Model\CartRuleQualifier $cartRuleQualifierModel */
-        $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
+        /** @var \Veni\CartRulesReport\Model\CartRules $cartRulesModel */
+        $cartRulesModel = $this->cartRulesFactory->create();
 
         $modelData = [
             'customer_id' => $order->getCustomerId(),
@@ -46,8 +48,8 @@ class SalesOrderSaveAfter implements ObserverInterface
             $rule = $this->ruleFactory->create();
             $rule->load($ruleId);
             $modelData['name'] = $rule->getName();
-            $cartRuleQualifierModel->setData($modelData);
-            $cartRuleQualifierModel->save();
+            $cartRulesModel->setData($modelData);
+            $cartRulesModel->save();
         }
     }
 

@@ -1,12 +1,10 @@
 <?php
-
-namespace Veni\CartPriceRulesQualifier\Controller\Adminhtml\Action;
-
+namespace Veni\CartRulesReport\Controller\Adminhtml\Action;
 
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\App\Action\Context;
 use Magento\Ui\Component\MassAction\Filter;
-use Veni\CartPriceRulesQualifier\Model\ResourceModel\CartRuleQualifier\CollectionFactory;
+use Veni\CartRulesReport\Model\ResourceModel\CartRules\CollectionFactory;
 
 class MassDelete extends \Magento\Backend\App\Action
 {
@@ -50,6 +48,6 @@ class MassDelete extends \Magento\Backend\App\Action
 
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-        return $resultRedirect->setPath('*/byCustomer/index/');
+        return $resultRedirect->setPath('*/');
     }
 }

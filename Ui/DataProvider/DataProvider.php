@@ -1,23 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: veni
- * Date: 22.12.17
- * Time: 14:17
- */
+namespace Veni\CartRulesReport\Ui\DataProvider;
 
-namespace Veni\CartPriceRulesQualifier\Ui\DataProvider;
-
-use Veni\CartPriceRulesQualifier\Model\ResourceModel\CartRuleQualifier\CollectionFactory;
+use Veni\CartRulesReport\Model\ResourceModel\CartRules\CollectionFactory;
 
 /**
  * Class DataProvider
- * @package Veni\CartPriceRulesQualifier\Ui\DataProvider
+ * @package Veni\CartRules\Ui\DataProvider
  */
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
+
     /**
-     * @var \Veni\CartPriceRulesQualifier\Model\ResourceModel\CartRuleQualifier\Collection
+     * @var \Veni\CartRulesReport\Model\ResourceModel\CartRules\Collection
      */
     protected $collection;
 
@@ -59,6 +53,9 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $this->addFilterStrategies = $addFilterStrategies;
     }
 
+    /**
+     * @return \Veni\CartRulesReport\Model\ResourceModel\CartRules\Collection
+     */
     public function getCollection()
     {
         return $this->collection;

@@ -1,17 +1,18 @@
 <?php
-namespace Veni\CartPriceRulesQualifier\Controller\Adminhtml\Report;
+namespace Veni\CartRulesReport\Controller\Adminhtml\Report;
 
 use Magento\Framework\App\Action\Context;
 
 class Csv extends \Magento\Framework\App\Action\Action
 {
 
-    const OUTPUT_FILE_NAME = 'PromotionsByCustomers';
+    const OUTPUT_FILE_NAME = 'PromotionsReport';
 
     /**
-     * @var \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory
+     * @var \Veni\CartRulesReport\Model\CartRulesFactory $cartRulesFactory
      */
-    protected $cartRuleQualifierFactory;
+    protected $cartRulesFactory;
+
     /**
      * @var \Magento\Framework\App\ResourceConnection
      */
@@ -19,11 +20,11 @@ class Csv extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         Context $context,
-        \Veni\CartPriceRulesQualifier\Model\CartRuleQualifierFactory $cartRuleQualifierFactory,
+        \Veni\CartRulesReport\Model\CartRulesFactory $cartRulesFactory,
         \Magento\Framework\App\ResourceConnection $resource)
     {
         parent::__construct($context);
-        $this->cartRuleQualifierFactory = $cartRuleQualifierFactory;
+        $this->cartRulesFactory = $cartRulesFactory;
         $this->resource = $resource;
     }
 
@@ -34,8 +35,8 @@ class Csv extends \Magento\Framework\App\Action\Action
         $handle = fopen($outputFile, 'w');
         fputcsv($handle, $heading);
 
-        $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
-        $cartRulesCollection = $cartRuleQualifierModel->getCollection();
+        $cartRulesModel = $this->cartRulesFactory->create();
+        $cartRulesCollection = $cartRulesModel->getCollection();
 
         $promotionsByOrder = $this->getPromotionsByOrder();
         $linkedPromotions = $this->getLinkedPromotions($promotionsByOrder);
@@ -57,7 +58,7 @@ class Csv extends \Magento\Framework\App\Action\Action
             $row[] = $collectionItem->getData('num_of_usage');
             fputcsv($handle, $row);
         }
-        
+
         $this->downloadCsv($outputFile);
     }
 
@@ -90,8 +91,8 @@ class Csv extends \Magento\Framework\App\Action\Action
 
     private function getPromotionsByOrder()
     {
-        $cartRuleQualifierModel = $this->cartRuleQualifierFactory->create();
-        $cartRulesCollection = $cartRuleQualifierModel->getCollection();
+        $cartRulesModel = $this->cartRulesFactory->create();
+        $cartRulesCollection = $cartRulesModel->getCollection();
         $collectionItems = $cartRulesCollection->getItems();
 
         $promotionsByOrder = [];
@@ -125,7 +126,7 @@ class Csv extends \Magento\Framework\App\Action\Action
     {
         $connection = $this->resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
         $select = $connection->select();
-        $select->from('veni_cart_rule_qualifier', 'name')->distinct(true);
+        $select->from('veni_cart_rules', 'name')->distinct(true);
 
         return $connection->fetchCol($select);
     }

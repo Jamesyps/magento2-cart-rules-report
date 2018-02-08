@@ -1,1 +1,1 @@
-Checkout this repo in app\code\Veni\CartPriceRulesQualifier
+Checkout this repo in app\code\Veni\CartRulesReport
